@@ -1,0 +1,31 @@
+def generate_password():
+    try:
+        length = int(entry_length.get())
+        if length < 6:
+            messagebox.showwarning("Warning", "Password length should be at least 6 characters!")
+            return
+
+        characters = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(random.choice(characters) for _ in range(length))
+        password_var.set(password)
+    except ValueError:
+        messagebox.showerror("Error", "Please enter a valid number!")
+
+
+app = tk.Tk()
+app.title("Password Generator")
+app.geometry("400x250")
+
+tk.Label(app, text="Enter Password Length:").pack(pady=5)
+entry_length = tk.Entry(app)
+entry_length.pack(pady=5)
+
+tk.Button(app, text="Generate Password", command=generate_password).pack(pady=10)
+
+password_var = tk.StringVar()
+password_entry = tk.Entry(app, textvariable=password_var, font=("Arial", 14), justify="center", state="readonly")
+password_entry.pack(pady=5, padx=10, fill=tk.BOTH)
+
+tk.Button(app, text="Exit", command=app.quit).pack(pady=10)
+
+app.mainloop()
