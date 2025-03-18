@@ -1,0 +1,53 @@
+import tkinter as tk
+from tkinter import messagebox
+import random
+
+user_score = 0
+computer_score = 0
+
+
+def play(choice):
+    global user_score, computer_score
+    options = ["Rock", "Paper", "Scissors"]
+    computer_choice = random.choice(options)
+
+    if choice == computer_choice:
+        result = "It's a tie!"
+    elif (choice == "Rock" and computer_choice == "Scissors") or \
+            (choice == "Scissors" and computer_choice == "Paper") or \
+            (choice == "Paper" and computer_choice == "Rock"):
+        result = "You win!"
+        user_score += 1
+    else:
+        result = "Computer wins!"
+        computer_score += 1
+
+    score_label.config(text=f"Score: You {user_score} - {computer_score} Computer")
+    messagebox.showinfo("Result", f"You chose {choice}\nComputer chose {computer_choice}\n{result}")
+
+
+def create_game_window():
+    global score_label
+    app = tk.Tk()
+    app.title("Rock-Paper-Scissors Game")
+    app.geometry("400x350")
+
+    tk.Label(app, text="Choose Rock, Paper, or Scissors:", font=("Arial", 14)).pack(pady=10)
+
+    button_frame = tk.Frame(app)
+    button_frame.pack()
+
+    for option in ["Rock", "Paper", "Scissors"]:
+        tk.Button(button_frame, text=option, font=("Arial", 14), width=10, command=lambda o=option: play(o)).pack(
+            side=tk.LEFT, padx=10, pady=10)
+
+    score_label = tk.Label(app, text="Score: You 0 - 0 Computer", font=("Arial", 12))
+    score_label.pack(pady=10)
+
+    tk.Button(app, text="Exit", font=("Arial", 12), command=app.quit).pack(pady=10)
+
+    app.mainloop()
+
+
+if __name__ == "__main__":
+    create_game_window()
